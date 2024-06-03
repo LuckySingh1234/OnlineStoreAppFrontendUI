@@ -189,6 +189,92 @@ function addProduct() {
     });
 }
 
+function editProduct() {
+    clearPreviousAlerts();
+    const productId = document.getElementById('productId').value.trim();
+    if (!isValidProductId(productId)) {
+        const alert = document.getElementById('failure-alert');
+        alert.innerText = 'Product Id does not match the pattern';
+        alert.style.display = 'block';
+        return;
+    }
+
+    const name = document.getElementById('name').value.trim();
+    if (!isValidProductName(name)) {
+        const alert = document.getElementById('failure-alert');
+        alert.innerText = 'Product Name does not match the pattern';
+        alert.style.display = 'block';
+        return;
+    }
+
+    const price = document.getElementById('price').value.trim();
+    if (!isValidPrice(price)) {
+        const alert = document.getElementById('failure-alert');
+        alert.innerText = 'Product Price should a positive decimal value';
+        alert.style.display = 'block';
+        return;
+    }
+
+    const stockQuantity = document.getElementById('stockQuantity').value.trim();
+    if (!isValidStockQuantity(stockQuantity)) {
+        const alert = document.getElementById('failure-alert');
+        alert.innerText = 'Product Stock Quantity should a positive integer value';
+        alert.style.display = 'block';
+        return;
+    }
+
+    const category = document.getElementById('category').value.trim();
+    if (!isValidCategory(category)) {
+        const alert = document.getElementById('failure-alert');
+        alert.innerText = 'Product Category is Invalid';
+        alert.style.display = 'block';
+        return;
+    }
+
+    const imageUrl = document.getElementById('imageUrl').value.trim();
+
+    var apiUrl = 'http://localhost:8080/OnlineStoreAppBackendAPI/webapi/myresource/editProduct';
+    var formData = {
+        productId: productId,
+        name: name,
+        price: price,
+        stockQuantity: stockQuantity,
+        category: category,
+        imageUrl: imageUrl
+    };
+
+    $.ajax({
+        url: apiUrl,
+        type: 'POST',
+        contentType: 'application/json',
+        data: JSON.stringify(formData),
+        success: function(response) {
+            if (response.success === 'true') {
+                document.getElementById('productId').value = "";
+                document.getElementById('name').value = "";
+                document.getElementById('price').value = "";
+                document.getElementById('stockQuantity').value = "";
+                document.getElementById('category').value = "";
+                document.getElementById('imageUrl').value = "";
+                const alert = document.getElementById('success-alert');
+                alert.innerText = "Product Edited Successfully";
+                alert.style.display = 'block';
+                renderProducts(document.getElementById('category-filter').value);
+            } else {
+                const alert = document.getElementById('failure-alert');
+                alert.innerText = response.errorMessage;
+                alert.style.display = 'block';
+            }
+        },
+        error: function(xhr, status, error) {
+            // Handle error
+            const alert = document.getElementById('failure-alert');
+            alert.innerText = 'Error: ' + error;
+            alert.style.display = 'block';
+        }
+    });
+}
+
 function clearPreviousAlerts() {
     const successAlert = document.getElementById('success-alert');
     successAlert.style.display = 'none';
