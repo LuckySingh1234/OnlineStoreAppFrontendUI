@@ -18,12 +18,12 @@
         <!-- ----------------------------------- -->
 
 
-        <!--Linking CCustom Style-->
+        <!--Linking Custom Style-->
         <link rel="stylesheet" href="/CSS/style.css">
 
         <!--Linking Custom JavaScript-->
         <script src="/JS/nav.js"></script>
-        <script src="/JS/productAdmin.js"></script>
+        <script src="/JS/customerAdmin.js"></script>
 
         <!--Link for font awesome favicons-->
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">        
@@ -103,92 +103,76 @@
 
         <main>
             <div class="container">
-                <h2 style="margin-top: 5rem;" id="editSection">Add or Edit Product</h2>
+                <h2 style="margin-top: 5rem;" id="addSection">Add Customer</h2>
                 <div class="row mt-4">
                     <div class="col-md-2 font-weight-bold">
-                        <label for="productId">Product Id:</label>
+                        <label for="customerId">Customer Id:</label>
                     </div>
                     <div class="col-md-2 ml-n5">
-                        <input type="text" id="productId" name="productId">
+                        <input type="text" id="customerId" name="customerId">
                     </div>
                     <div class="col-md-2 ml-5 font-weight-bold">
-                        <label for="name">Name:</label>
+                        <label for="fullName">Full Name:</label>
                     </div>
                     <div class="col-md-2 ml-n5">
-                        <input type="text" id="name" name="name">
+                        <input type="text" id="fullName" name="fullName">
                     </div>
                     <div class="col-md-2 ml-5 font-weight-bold">
-                        <label for="price">Price:</label>
+                        <label for="mobile">Mobile Number:</label>
                     </div>
                     <div class="col-md-2 ml-n5">
-                        <input type="text" id="price" name="price">
+                        <input type="text" id="mobile2" name="mobile">
                     </div>
                 </div>
                 <div class="row mt-2">
                     <div class="col-md-2 font-weight-bold">
-                        <label for="stockQuantity">Stock Quantity:</label>
+                        <label for="email">E-mail:</label>
                     </div>
                     <div class="col-md-2 ml-n5">
-                        <input type="text" id="stockQuantity" name="stockQuantity">
+                        <input type="text" id="email2" name="email">
                     </div>
                     <div class="col-md-2 ml-5 font-weight-bold">
-                        <label for="category">Category:</label>
+                        <label for="password">Password:</label>
                     </div>
                     <div class="col-md-2 ml-n5">
-                        <select id="category" name="category-filter" style="width: 188px;">
-                            <option value=""></option>
-                            <option value="pant">Pant</option>
-                            <option value="shirt">Shirt</option>
-                            <option value="tshirt">T-Shirt</option>
-                            <option value="saree">Saree</option>
-                            <option value="chudi">Chudi</option>
-                        </select>
+                        <input type="text" id="password" name="password">
                     </div>
                     <div class="col-md-2 ml-5 font-weight-bold">
-                        <label for="imageUrl">Image URL:</label>
+                        <label for="address">Address:</label>
                     </div>
                     <div class="col-md-2 ml-n5">
-                        <input type="text" id="imageUrl" name="imageUrl">
+                        <input type="text" id="address" name="address">
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-md-3 mt-4">
-                        <button class="btn btn-sm btn-primary" style="width: 250px;" id="view" onclick=viewProduct()>View</button>
+                        <button class="btn btn-sm btn-primary" style="width: 250px;" id="view" onclick=viewCustomer()>View</button>
                     </div>
                     <div class="col-md-3 mt-4">
-                        <button class="btn btn-sm btn-success" style="width: 250px;" id="add" onclick=addProduct()>Add</button>
+                        <button class="btn btn-sm btn-success" style="width: 250px;" id="add" onclick=addCustomer()>Add</button>
                     </div>
                     <div class="col-md-3 mt-4">    
-                        <button class="btn btn-sm btn-warning" style="width: 250px;" id="edit" onclick=editProduct()>Edit</button>
+                        <button class="btn btn-sm btn-warning" style="width: 250px;" id="edit" onclick=editCustomer()>Edit</button>
                     </div>
                     <div class="col-md-3 mt-4">    
-                        <button class="btn btn-sm btn-danger" style="width: 250px;" id="remove" onclick=removeProduct()>Remove</button>
+                        <button class="btn btn-sm btn-danger" style="width: 250px;" id="remove" onclick=removeCustomer()>Remove</button>
                     </div>
                 </div>
 
                 <div class="alert alert-success text-center mt-2" role="alert" id="success-alert" style="display: none;"></div>
                 <div class="alert alert-danger text-center mt-2" role="alert" id="failure-alert" style="display: none;"></div>
             </div>
-            <div id="productAdminContent"> 
+            <div id="customerAdminContent"> 
                 <div class="container mt-5" style="margin-bottom: 6rem;">
-                    <label class="font-weight-bold" for="category-filter" style="display: inline;">Filter By Category:</label>
-                    <select id="category-filter" name="category-filter">
-                        <option value="ALL">ALL</option>
-                        <option value="pant">Pant</option>
-                        <option value="shirt">Shirt</option>
-                        <option value="tshirt">T-Shirt</option>
-                        <option value="saree">Saree</option>
-                        <option value="chudi">Chudi</option>
-                    </select>
-                    <table id="productAdminTable">
+                    <table id="customerAdminTable">
                         <thead>
                             <tr>
-                                <th>Product Image</th>
-                                <th>Product Id</th>
-                                <th>Name</th>
-                                <th>Category</th>
-                                <th>Stock Availability</th>
-                                <th>Price</th>
+                                <th>Customer Id</th>
+                                <th>Full Name</th>
+                                <th>Mobile Number</th>
+                                <th>E-mail</th>
+                                <th>Password</th>
+                                <th>Address</th>
                                 <th>Edit</th>
                                 <th>Remove</th>
                             </tr>

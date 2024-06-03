@@ -6,6 +6,14 @@ const categoryParamToCategoryNameMap = {
     'chudi': 'Chudi'
 }
 
+const categoryNameToCategoryParamMap = {
+    'Shirt': 'shirt',
+    'T-Shirt': 'tshirt',
+    'Pant': 'pant',
+    'Saree': 'saree',
+    'Chudi': 'chudi'
+}
+
 document.addEventListener('DOMContentLoaded', (event) => {
     renderProducts("ALL");    
     document.getElementById('category-filter').addEventListener('change', function() {
@@ -38,14 +46,14 @@ function renderProducts(category) {
                     const productAdminTableBody = document.querySelector('#productAdminTable tbody');
                     const productAdminTableBodyHtml = `
                         <tr class="productRow">
-                            <td><img src=${item.imageUrl} width="50" height="50" alt="Product Image"></td>
+                            <td><img class="imageUrl" src=${item.imageUrl} width="50" height="50" alt="Product Image"></td>
                             <td class="productId">${item.productId}</td>
-                            <td>${item.name}</td>
-                            <td>${categoryParamToCategoryNameMap[item.category]}</td>
-                            <td>${item.stockQuantity}</td>
-                            <td>INR ${parseFloat(item.price).toFixed(2)}</td>
+                            <td class="name">${item.name}</td>
+                            <td class="category">${categoryParamToCategoryNameMap[item.category]}</td>
+                            <td class="stockQuantity">${item.stockQuantity}</td>
+                            <td class="price">INR ${parseFloat(item.price).toFixed(2)}</td>
                             <td><button class="editBtn btn btn-warning btn-sm" style="width: 75px;" onclick="updateProduct(this)">Edit</button></td>
-                            <td><button class="removeBtn btn btn-danger btn-sm" style="width: 75px;" onclick="removeProduct(this)">Remove</button></td>
+                            <td><button class="removeBtn btn btn-danger btn-sm" style="width: 75px;" onclick="removeProductViaTable(this)">Remove</button></td>
                         </tr>
                     `;
                     productAdminTableBody.innerHTML += productAdminTableBodyHtml;
@@ -273,6 +281,130 @@ function editProduct() {
             alert.style.display = 'block';
         }
     });
+}
+
+function removeProduct() {
+    clearPreviousAlerts();
+
+    const productId = document.getElementById('productId').value.trim();
+    if (!isValidProductId(productId)) {
+        const alert = document.getElementById('failure-alert');
+        alert.innerText = 'Product Id does not match the pattern';
+        alert.style.display = 'block';
+        return;
+    }
+
+    var apiUrl = 'http://localhost:8080/OnlineStoreAppBackendAPI/webapi/myresource/removeProduct';
+    var formData = {
+        productId: productId
+    };
+
+    $.ajax({
+        url: apiUrl,
+        type: 'POST',
+        contentType: 'application/json',
+        data: JSON.stringify(formData),
+        success: function(response) {
+            if (response.success === 'true') {
+                document.getElementById('productId').value = "";
+                document.getElementById('name').value = "";
+                document.getElementById('price').value = "";
+                document.getElementById('stockQuantity').value = "";
+                document.getElementById('category').value = "";
+                document.getElementById('imageUrl').value = "";
+                const alert = document.getElementById('success-alert');
+                alert.innerText = "Product Removed Successfully";
+                alert.style.display = 'block';
+                renderProducts(document.getElementById('category-filter').value);
+            } else {
+                const alert = document.getElementById('failure-alert');
+                alert.innerText = response.errorMessage;
+                alert.style.display = 'block';
+            }
+        },
+        error: function(xhr, status, error) {
+            // Handle error
+            const alert = document.getElementById('failure-alert');
+            alert.innerText = 'Error: ' + error;
+            alert.style.display = 'block';
+        }
+    });
+}
+ function removeProductViaTable(removeViaTableBtn) {
+    clearPreviousAlerts();
+
+    const productRow = removeViaTableBtn.closest('.productRow');
+    const productIdElement = productRow.querySelector('.productId');
+    const productId = productIdElement.textContent;
+
+    var apiUrl = 'http://localhost:8080/OnlineStoreAppBackendAPI/webapi/myresource/removeProduct';
+    var formData = {
+        productId: productId
+    };
+
+    $.ajax({
+        url: apiUrl,
+        type: 'POST',
+        contentType: 'application/json',
+        data: JSON.stringify(formData),
+        success: function(response) {
+            if (response.success === 'true') {
+                document.getElementById('productId').value = "";
+                document.getElementById('name').value = "";
+                document.getElementById('price').value = "";
+                document.getElementById('stockQuantity').value = "";
+                document.getElementById('category').value = "";
+                document.getElementById('imageUrl').value = "";
+                const alert = document.getElementById('success-alert');
+                alert.innerText = "Product Removed Successfully";
+                alert.style.display = 'block';
+                renderProducts(document.getElementById('category-filter').value);
+            } else {
+                const alert = document.getElementById('failure-alert');
+                alert.innerText = response.errorMessage;
+                alert.style.display = 'block';
+            }
+        },
+        error: function(xhr, status, error) {
+            // Handle error
+            const alert = document.getElementById('failure-alert');
+            alert.innerText = 'Error: ' + error;
+            alert.style.display = 'block';
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    });
+ }
+
+function updateProduct(editBtn) {
+    clearPreviousAlerts();
+
+    const productRow = editBtn.closest('.productRow');
+    
+    const productIdElement = productRow.querySelector('.productId');
+    const productId = productIdElement.textContent;
+    document.getElementById('productId').value = productId;
+
+    const productNameElement = productRow.querySelector('.name');
+    const productName = productNameElement.textContent;
+    document.getElementById('name').value = productName;
+
+    const priceElement = productRow.querySelector('.price');
+    const price = priceElement.textContent.replace('INR', '').trim();
+    document.getElementById('price').value = price;
+
+    const stockQuantityElement = productRow.querySelector('.stockQuantity');
+    const stockQuantity = stockQuantityElement.textContent;
+    document.getElementById('stockQuantity').value = stockQuantity;
+
+    const categoryElement = productRow.querySelector('.category');
+    const category = categoryElement.textContent;
+    document.getElementById('category').value = categoryNameToCategoryParamMap[category];
+
+    const imageUrlElement = productRow.querySelector('.imageUrl');
+    const imageUrl = imageUrlElement.getAttribute('src');
+    document.getElementById('imageUrl').value = imageUrl;
+
+    window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
 function clearPreviousAlerts() {
