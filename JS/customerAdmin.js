@@ -367,7 +367,7 @@ function updateCustomer(editBtn) {
     const customerId = customerIdElement.textContent;
     document.getElementById('customerId').value = customerId;
 
-    const fullNameElement = customerRow.querySelector('.name');
+    const fullNameElement = customerRow.querySelector('.fullName');
     const fullName = fullNameElement.textContent;
     document.getElementById('fullName').value = fullName;
 
@@ -384,7 +384,7 @@ function updateCustomer(editBtn) {
     document.getElementById('password').value = password;
 
     const addressElement = customerRow.querySelector('.address');
-    const address = addressElement.textContent('src');
+    const address = addressElement.textContent;
     document.getElementById('address').value = address;
 
     window.scrollTo({ top: 0, behavior: 'smooth' });
