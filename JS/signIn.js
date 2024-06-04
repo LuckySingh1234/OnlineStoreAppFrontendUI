@@ -10,64 +10,60 @@ function signIn() {
     const errorMessage = document.getElementById('signInErrorMessage');
     errorMessage.textContent = '';
 
-    var email = document.getElementById("signin_email").value
-    if (email.trim()==null || email.trim()==""|| email===" ") {
+    var email = document.getElementById("signin_email").value.trim();
+    if (email==="") {
         errorMessage.textContent = 'Please specify your email';
         return;
     }
+    if (!isValidEmail(email)) {name
+        errorMessage.textContent = 'Email format is incorrect';
+        return;
+    }
 
-    var password = document.getElementById("signin_password").value
-    if (password.trim()==null || password.trim()==""|| password===" ") {
+    var password = document.getElementById("signin_password").value.trim();
+    if (!isValidPassword) {
         errorMessage.textContent = 'Please specify your password';
         return;
     }
     
-    const users = getArrayFromLocalStorage('users');
+    const formData = {
+        email: email,
+        password: password
+    };
+    var apiUrl = 'http://localhost:8080/OnlineStoreAppBackendAPI/webapi/myresource/customerLogin';
 
-    let signedInUser;
+    $.ajax({
+        url: apiUrl,
+        type: 'POST',
+        contentType: 'application/json',
+        data: JSON.stringify(formData),
+        success: function(response) {
+            if (response.customerId !== undefined) {
+                document.getElementById('signin_email').value = '';
+                document.getElementById('signin_password').value = '';
+                saveSignedInUser(response);
 
-    let alreadyExists = false;
-    let passwordMatched = false;
-    users.forEach(function(existingUser) {
-        if (existingUser.email === email) {
-            alreadyExists = true;
-            if (existingUser.password === password) {
-                passwordMatched = true;
-                signedInUser = {
-                    'email': existingUser.email,
-                    'password': existingUser.password,
-                    'name': existingUser.name,
-                    'mobile': existingUser.mobile,
-                    'address': existingUser.address
-                }
+                window.location = 'index.html';
+            } else {
+                errorMessage.textContent = 'Log in failed';
             }
+        },
+        error: function(xhr, status, error) {
+            // Handle error
+            errorMessage.textContent = 'Error: ' + error;
         }
     });
-    if (!alreadyExists) {
-        errorMessage.textContent = 'Email id is not registered';
-        return;
-    }
-    if (!passwordMatched) {
-        errorMessage.textContent = 'Password is incorrect';
-        return;
-    }
-
-    saveArrayToLocalStorage("signedInUser", JSON.stringify(signedInUser));
-
-    document.getElementById('signin_email').value = '';
-    document.getElementById('signin_password').value = '';
-
-    window.location = "index.html";
 }
 
-function getArrayFromLocalStorage(key) {
-    let jsonString = localStorage.getItem(key);
-    if (!jsonString) {
-        return [];
-    }
-    return JSON.parse(jsonString);
+function isValidEmail(email) {
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    return emailRegex.test(email);
 }
 
-function saveArrayToLocalStorage(key, value) {
-    localStorage.setItem(key, value);
+function isValidPassword(password) {
+    return password !== "";
+}
+
+function saveSignedInUser(response) {
+    localStorage.setItem('signedInUser', JSON.stringify(response));
 }

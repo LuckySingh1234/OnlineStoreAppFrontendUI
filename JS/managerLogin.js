@@ -9,7 +9,7 @@ function signIn() {
     const errorMessage = document.getElementById('signInErrorMessage');
     errorMessage.textContent = '';
 
-    var email = document.getElementById("signin_email").value
+    var email = document.getElementById("signin_email").value.trim();
     if (email.trim()==null || email.trim()==""|| email===" ") {
         errorMessage.textContent = 'Please specify your email';
         return;
@@ -19,8 +19,8 @@ function signIn() {
         return;
     }
 
-    var password = document.getElementById("signin_password").value
-    if (password.trim()==null || password.trim()==""|| password===" ") {
+    var password = document.getElementById("signin_password").value.trim();
+    if (!isValidPassword) {
         errorMessage.textContent = 'Please specify your password';
         return;
     }
@@ -57,6 +57,10 @@ function signIn() {
 function isValidEmail(email) {
     const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
     return emailRegex.test(email);
+}
+
+function isValidPassword(password) {
+    return password !== "";
 }
 
 function saveToLocalStorage(key, value) {

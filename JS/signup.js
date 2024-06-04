@@ -10,88 +10,89 @@ function signUp() {
     const errorMessage = document.getElementById('signUpErrorMessage');
     errorMessage.textContent = '';
 
-    var email = document.getElementById("signup_email").value
-    if (email.trim()==null || email.trim()==""|| email===" ") {
-        errorMessage.textContent = 'Please specify your email';
+    var email = document.getElementById("signup_email").value.trim();
+    if (!isValidEmail(email)) {
+        errorMessage.textContent = 'Customer Email does not match the pattern';
         return;
     }
 
-    var password = document.getElementById("signup_password").value
-    if (password.trim()==null || password.trim()==""|| password===" ") {
-        errorMessage.textContent = 'Please specify your password';
-        return;
-    }
-    
-    var name = document.getElementById("name").value
-    if (name.trim()==null || name.trim()==""|| name===" ") {
-        errorMessage.textContent = 'Please specify your name';
+    var password = document.getElementById("signup_password").value.trim();
+    if (!isValidPassword(password)) {
+        errorMessage.textContent = 'Customer Password is Invalid';
         return;
     }
 
-    var mobile = document.getElementById("mobile").value
-    if (mobile.trim()==null || mobile.trim()==""|| mobile===" ") {
-        errorMessage.textContent = 'Please specify your mobile number';
-        return;
-    }
-    if(mobile.trim().length<10 || mobile.trim().length>10) {
-        errorMessage.textContent = 'Mobile number should be of 10 digits';
+    var fullName = document.getElementById("fullName").value.trim();
+    if (!isValidName(fullName)) {
+        errorMessage.textContent = 'Customer Name does not match the pattern';
         return;
     }
 
-    var address = document.getElementById("address").value
-    if (address.trim()==null || address.trim()==""|| address===" ") {
-        errorMessage.textContent = 'Please specify your address';
+    var mobile = document.getElementById("signup_mobile").value.trim();
+    if (!isValidMobile(mobile)) {
+        errorMessage.textContent = 'Customer Mobile Number does not match the pattern';
         return;
     }
 
-    const users = getArrayFromLocalStorage('users');
+    var address = document.getElementById("address").value.trim();
+    if (!isValidAddress(address)) {
+        errorMessage.textContent = 'Customer Address is Invalid';
+        return;
+    }
 
-    let alreadyExists = false;
-    users.forEach(function(existingUser) {
-        if (existingUser.email === email) {
-            errorMessage.textContent = 'User with same email already exists.';
-            alreadyExists = true;
-            return;
+    const formData = {
+        email: email,
+        password: password,
+        fullName: fullName,
+        mobile: mobile,
+        address: address
+    }
+    var apiUrl = 'http://localhost:8080/OnlineStoreAppBackendAPI/webapi/myresource/addCustomer';
+
+    $.ajax({
+        url: apiUrl,
+        type: 'POST',
+        contentType: 'application/json',
+        data: JSON.stringify(formData),
+        success: function(response) {
+            if (response.success === 'true') {
+                document.getElementById('signup_email').value = '';
+                document.getElementById('signup_password').value = '';
+                document.getElementById('fullName').value = '';
+                document.getElementById('signup_mobile').value = '';
+                document.getElementById('address').value = '';
+
+                window.location = "signin.html"
+            } else {
+                errorMessage.textContent = response.errorMessage;
+            }
+        },
+        error: function(xhr, status, error) {
+            // Handle error
+            errorMessage.textContent = 'Error: ' + error;
         }
     });
-    if (alreadyExists) {
-        return;
-    }
-
-    const user = {
-        'email': email,
-        'password': password,
-        'name': name,
-        'mobile': mobile,
-        'address': address
-    }
-
-    addElementToArrayInLocalStorage('users', user);
-
-    document.getElementById('signup_email').value = '';
-    document.getElementById('signup_password').value = '';
-    document.getElementById('name').value = '';
-    document.getElementById('mobile').value = '';
-    document.getElementById('address').value = '';
-
-    window.location = "signin.html"
 }
 
-function getArrayFromLocalStorage(key) {
-    let jsonString = localStorage.getItem(key);
-    if (!jsonString) {
-        return [];
-    }
-    return JSON.parse(jsonString);
+function isValidName(fullName) {
+    const fullNameRegex = /^[A-Za-z\s]{1,20}$/;
+    return fullNameRegex.test(fullName);
 }
 
-function saveArrayToLocalStorage(key, array) {
-    let jsonString = JSON.stringify(array);
-    localStorage.setItem(key, jsonString);
+function isValidMobile(mobile) {
+    const mobileRegex = /^\d{10}$/;
+    return mobileRegex.test(mobile);
 }
 
-function addElementToArrayInLocalStorage(key, element) {
-    let array = getArrayFromLocalStorage(key);
-    array.push(element);
-    saveArrayToLocalStorage(key, array);
+function isValidEmail(email) {
+    const emailRegex = /^[a-zA-Z0-9_+&*-]+(?:\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\.)+[a-zA-Z]{2,7}$/;
+    return emailRegex.test(email);
+}
+
+function isValidPassword(password) {
+    return password !== "";
+}
+
+function isValidAddress(address) {
+    return address !== "";
 }

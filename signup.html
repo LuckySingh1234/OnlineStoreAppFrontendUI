@@ -25,6 +25,7 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">        
 
         <!--Linking Custom JavaScript-->
+        <script src="/JS/nav.js"></script>
         <script src="/JS/signup.js"></script>
     </head>
 
@@ -37,10 +38,14 @@
 
                     <a class="navbar-brand white-text" href="#"> E-COMMERCE-STORE </a>
 
+                    <a href="/cart.html">
+                        <span class="nav-link cart-icon" id="mycartbtn" role="button"> <i class="fa fa-shopping-cart"></i> My Cart </span>
+                    </a>
+
                     <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
                         <ul class="navbar-nav mr-auto smooth-scroll">
                             <li class="nav-item">
-                                <a class="nav-link" href="index.html#intro-section"><i class="fa fa-fw fa-home"></i> Home </a>
+                                <a class="nav-link" href="/index.html"><i class="fa fa-fw fa-home"></i> Home </a>
                             </li>
                             <li class="dropdown nav-item">
                                 <a class="dropdown-toggle nav-link" data-toggle="dropdown" href="#"><i class="fa fa-th"></i> Category
@@ -55,10 +60,29 @@
                                 </ul>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="index.html#contact" data-offset="90"><i class="fa fa-fw fa-envelope"></i> Contact </a>
+                                <a class="nav-link" href="" data-offset="90"><i class="fa fa-fw fa-envelope"></i> Contact </a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" id="signinbtn" href="signin.html" data-offset="90"><i class="fa fa-fw fa-sign-in"></i> Login </a>
+                            </li>
+                            <li class="dropdown nav-item" id="profileBtn">
+                                <a class="dropdown-toggle nav-link" data-toggle="dropdown" href="#"><i class="fa fa-fw fa-user"></i> Profile
+                                    <span class="caret"></span>
+                                </a>
+                                <ul class="dropdown-menu mr-auto smooth-scroll">
+                                    <li class="nav-item">
+                                        <span class="nav-link" data-offset="90"><i class="fa fa-fw fa-user"></i> <span id='name'> Name </span> </span>
+                                    </li>
+                                    <li class="nav-item">
+                                        <span class="nav-link" data-offset="90"><i class="fa fa-fw fa-phone"></i> <span id='mobile'> Mobile </span> </span>
+                                    </li>
+                                    <li class="nav-item">
+                                        <span class="nav-link" data-offset="90"><i class="fa fa-fw fa-envelope"></i> <span id='email'> Email </span> </span>
+                                    </li>
+                                    <li class="nav-item">
+                                        <span class="nav-link" id="signoutbtn" role="button" onclick="signOut()" data-offset="90"><i class="fa fa-fw fa-sign-in"></i> Log Out </span>
+                                    </li>
+                                </ul>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" id="signupbtn" href="signup.html" data-offset="90"><i class="fa fa-fw fa-user"></i> Sign Up </a>
@@ -68,6 +92,22 @@
                         <ul class="navbar-nav nav-flex-icons">
                             <li class="nav-item">
                                 <a class="nav-link" id="managerLoginBtn" href="managerLogin.html" data-offset="90"><i class="fa fa-fw fa-user"></i> Manager Login </a>
+                            </li>
+                            <li class="dropdown nav-item" id="adminProfileBtn">
+                                <a class="dropdown-toggle nav-link" data-toggle="dropdown" href="#"><i class="fa fa-fw fa-user"></i> Admin Profile
+                                    <span class="caret"></span>
+                                </a>
+                                <ul class="dropdown-menu mr-auto smooth-scroll">
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="managerFunctionalities.html" data-offset="90"><i class="fa fa-fw fa-user"></i> Admin Page </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <span class="nav-link" data-offset="90"><i class="fa fa-fw fa-envelope"></i> <span id='adminEmail'> Email </span> </span>
+                                    </li>
+                                    <li class="nav-item">
+                                        <span class="nav-link" id="adminSignoutbtn" role="button" onclick="adminSignOut()" data-offset="90"><i class="fa fa-fw fa-sign-in"></i> Admin Log Out </span>
+                                    </li>
+                                </ul>
                             </li>
                         </ul>
                     </div>
@@ -86,10 +126,10 @@
                     <input type="password" id="signup_password" class="form-control rounded-pill form-control-lg" placeholder="Password">
                 </div>
                 <div class="form-group">
-                    <input type="text" id="name" class="form-control rounded-pill form-control-lg" placeholder="Full Name">
+                    <input type="text" id="fullName" class="form-control rounded-pill form-control-lg" placeholder="Full Name">
                 </div>
                 <div class="form-group">
-                    <input type="text" id="mobile" class="form-control rounded-pill form-control-lg" placeholder="Mobile Number">
+                    <input type="text" id="signup_mobile" class="form-control rounded-pill form-control-lg" placeholder="Mobile Number">
                 </div>
                 <div class="form-group">
                     <input type="text" id="address" class="form-control rounded-pill form-control-lg" placeholder="Address">
