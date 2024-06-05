@@ -38,7 +38,7 @@ $(document).ready(function() {
                                 <div class="card-body">
                                     <p class="card-text product-id">Product ID: ${item.productId}</p>
                                     <p class="card-text product-name">Name: ${item.name}</p>
-                                    <p class="card-text product-price">Price: ${item.price}</p>
+                                    <p class="card-text product-price">Price: INR ${item.price}</p>
                                     <button class="addToCartBtn btn btn-primary btn-sm" onclick="addToCart(this)">Add to Cart</button>
                                 </div>
                             </div>
