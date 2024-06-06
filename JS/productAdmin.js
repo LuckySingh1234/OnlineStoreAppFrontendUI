@@ -90,7 +90,7 @@ function viewProduct() {
         success: function(response) {
             if (response.success === 'true') {
                 document.getElementById('productId').value = response.productId;
-                document.getElementById('name').value = response.name;
+                document.getElementById('name2').value = response.name;
                 document.getElementById('price').value = response.price;
                 document.getElementById('stockQuantity').value = response.stockQuantity;
                 document.getElementById('category').value = response.category;
@@ -121,7 +121,7 @@ function addProduct() {
         return;
     }
 
-    const name = document.getElementById('name').value.trim();
+    const name = document.getElementById('name2').value.trim();
     if (!isValidProductName(name)) {
         const alert = document.getElementById('failure-alert');
         alert.innerText = 'Product Name does not match the pattern';
@@ -173,7 +173,7 @@ function addProduct() {
         success: function(response) {
             if (response.success === 'true') {
                 document.getElementById('productId').value = "";
-                document.getElementById('name').value = "";
+                document.getElementById('name2').value = "";
                 document.getElementById('price').value = "";
                 document.getElementById('stockQuantity').value = "";
                 document.getElementById('category').value = "";
@@ -207,7 +207,7 @@ function editProduct() {
         return;
     }
 
-    const name = document.getElementById('name').value.trim();
+    const name = document.getElementById('name2').value.trim();
     if (!isValidProductName(name)) {
         const alert = document.getElementById('failure-alert');
         alert.innerText = 'Product Name does not match the pattern';
@@ -259,7 +259,7 @@ function editProduct() {
         success: function(response) {
             if (response.success === 'true') {
                 document.getElementById('productId').value = "";
-                document.getElementById('name').value = "";
+                document.getElementById('name2').value = "";
                 document.getElementById('price').value = "";
                 document.getElementById('stockQuantity').value = "";
                 document.getElementById('category').value = "";
@@ -307,7 +307,7 @@ function removeProduct() {
         success: function(response) {
             if (response.success === 'true') {
                 document.getElementById('productId').value = "";
-                document.getElementById('name').value = "";
+                document.getElementById('name2').value = "";
                 document.getElementById('price').value = "";
                 document.getElementById('stockQuantity').value = "";
                 document.getElementById('category').value = "";
@@ -350,7 +350,7 @@ function removeProduct() {
         success: function(response) {
             if (response.success === 'true') {
                 document.getElementById('productId').value = "";
-                document.getElementById('name').value = "";
+                document.getElementById('name2').value = "";
                 document.getElementById('price').value = "";
                 document.getElementById('stockQuantity').value = "";
                 document.getElementById('category').value = "";
@@ -386,7 +386,7 @@ function updateProduct(editBtn) {
 
     const productNameElement = productRow.querySelector('.name');
     const productName = productNameElement.textContent;
-    document.getElementById('name').value = productName;
+    document.getElementById('name2').value = productName;
 
     const priceElement = productRow.querySelector('.price');
     const price = priceElement.textContent.replace('INR', '').trim();
