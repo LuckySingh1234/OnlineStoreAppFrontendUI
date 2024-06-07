@@ -25,6 +25,7 @@
         <!--Linking Custom JavaScript-->
         <script src="/JS/nav.js"></script>
         <script src="/JS/signIn.js"></script>
+        <script src="/JS/managerLogin.js"></script>
 
         <!--Link for font awesome favicons-->
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">        
@@ -92,9 +93,9 @@
                         </ul>
 
                         <ul class="navbar-nav nav-flex-icons">
-                            <li class="nav-item">
+                            <!-- <li class="nav-item">
                                 <a class="nav-link" id="managerLoginBtn" href="managerLogin.html" data-offset="90"><i class="fa fa-fw fa-user"></i> Manager Login </a>
-                            </li>
+                            </li> -->
                             <li class="dropdown nav-item" id="adminProfileBtn">
                                 <a class="dropdown-toggle nav-link" data-toggle="dropdown" href="#"><i class="fa fa-fw fa-user"></i> Admin Profile
                                     <span class="caret"></span>
@@ -128,7 +129,8 @@
                     <input type="password" id="signin_password" class="form-control rounded-pill form-control-lg" placeholder="Password">
                 </div>
                 <div id="signInErrorMessage" class="error"></div>
-                <button class="btn mt-5 rounded-pill btn-lg btn-custom btn-block text-uppercase" onclick=signIn()>Log in</button>
+                <button class="btn mt-5 rounded-pill btn-lg btn-custom btn-block text-uppercase" onclick=signIn()>Log in as Customer</button>
+                <button class="btn mt-3 rounded-pill btn-lg btn-custom btn-block text-uppercase" onclick=signInAsManager()>Login as manager</button>
                 <p class="mt-3 font-weight-normal">Don't have an account? <a href="signup.html"><strong>Register Now</strong></a></p>
             </div>
         </div>

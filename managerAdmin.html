@@ -6,7 +6,7 @@
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width initial-scale=1.0">
     
-        <title>E-Commerce Store</title>
+        <title>Online Store</title>
 
         <!-- CSS only -->
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
@@ -20,11 +20,10 @@
 
         <!--Linking CCustom Style-->
         <link rel="stylesheet" href="/CSS/style.css">
-        <link rel="stylesheet" href="/CSS/login_form.css">
 
         <!--Linking Custom JavaScript-->
         <script src="/JS/nav.js"></script>
-        <script src="/JS/managerLogin.js"></script>
+        <script src="/JS/managerAdmin.js"></script>
 
         <!--Link for font awesome favicons-->
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">        
@@ -92,9 +91,9 @@
                         </ul>
 
                         <ul class="navbar-nav nav-flex-icons">
-                            <li class="nav-item">
+                            <!-- <li class="nav-item">
                                 <a class="nav-link" id="managerLoginBtn" href="managerLogin.html" data-offset="90"><i class="fa fa-fw fa-user"></i> Manager Login </a>
-                            </li>
+                            </li> -->
                             <li class="dropdown nav-item" id="adminProfileBtn">
                                 <a class="dropdown-toggle nav-link" data-toggle="dropdown" href="#"><i class="fa fa-fw fa-user"></i> Admin Profile
                                     <span class="caret"></span>
@@ -118,21 +117,55 @@
             <!-- Navbar -->    
         </header>
 
-        <div class="d-flex justify-content-center align-items-center login-container">
-            <div class="login-form text-center">
-                <h1 class="mb-5 font-weight-light text-uppercase">Manager Login</h1>
-                <div class="form-group">
-                    <input type="text" id="signin_email" class="form-control rounded-pill form-control-lg" placeholder="E-mail">
+        <main>
+            <div class="container" style="margin-top: 5rem;">
+                <h2 id="addSection">Add Manager</h2>
+                <div class="row mt-4">
+                    <div class="col-md-2 font-weight-bold">
+                        <label for="email">E-mail:</label>
+                    </div>
+                    <div class="col-md-4 ml-n5">
+                        <input style="width: 350px;" type="text" id="email2" name="email">
+                    </div>
+                    <div class="col-md-2 ml-5 font-weight-bold">
+                        <label for="password">Password:</label>
+                    </div>
+                    <div class="col-md-4 ml-n5">
+                        <input style="width: 350px;" type="text" id="password" name="password">
+                    </div>
                 </div>
-                <div class="form-group">
-                    <input type="password" id="signin_password" class="form-control rounded-pill form-control-lg" placeholder="Password">
+                <div class="row">
+                    <div class="col-md-4 mt-4">
+                        <button class="btn btn-sm btn-primary" style="width: 333px;" id="view" onclick=viewManager()>View</button>
+                    </div>
+                    <div class="col-md-4 mt-4">
+                        <button class="btn btn-sm btn-success" style="width: 333px;" id="add" onclick=addManager()>Add</button>
+                    </div>
+                    <div class="col-md-4 mt-4">    
+                        <button class="btn btn-sm btn-warning" style="width: 333px;" id="edit" onclick=editManager()>Edit</button>
+                    </div>
                 </div>
-                <div id="signInErrorMessage" class="error"></div>
-                <button class="btn mt-5 rounded-pill btn-lg btn-custom btn-block text-uppercase" onclick=signIn()>Login as manager</button>
-                <div id="apiResponse" class="api mt-5"></div>
+                <div class="alert alert-success text-center mt-2" role="alert" id="success-alert" style="display: none;"></div>
+                <div class="alert alert-danger text-center mt-2" role="alert" id="failure-alert" style="display: none;"></div>
+                <div id="managerAdminContent"> 
+                    <div class="container mt-5" style="margin-bottom: 6rem;">
+                        <table id="managerAdminTable">
+                            <thead>
+                                <tr>
+                                    <th>E-mail</th>
+                                    <th>Password</th>
+                                    <th>Edit</th>
+                                    <th>Remove</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Rows will be added dynamically here using javascript -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
-        </div>
+        </main>
 
     </body>
-
 </html>

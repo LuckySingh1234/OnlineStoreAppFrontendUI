@@ -8,7 +8,7 @@ $(document).ready(function() {
     const signInBtn = document.getElementById('signinbtn');
     const profileBtn = document.getElementById('profileBtn');
     const signUpBtn = document.getElementById('signupbtn');
-    const managerLoginBtn = document.getElementById('managerLoginBtn');
+    // const managerLoginBtn = document.getElementById('managerLoginBtn');
     const adminProfileBtn = document.getElementById('adminProfileBtn');
 
     const name = document.getElementById('name');
@@ -21,6 +21,8 @@ $(document).ready(function() {
         signInBtn.style.display = 'none';
         signUpBtn.style.display = 'none';
         profileBtn.style.display = 'block';
+        // managerLoginBtn.style.display = 'none';
+        adminProfileBtn.style.display = 'none';
 
         name.innerHTML = signedInUser.fullName;
         mobile.innerHTML = signedInUser.mobile;
@@ -33,11 +35,14 @@ $(document).ready(function() {
     }
 
     if (signedInManager !== null) {
-        managerLoginBtn.style.display = 'none';
+        myCartBtn.style.display = 'none';
+        signInBtn.style.display = 'none';
+        signUpBtn.style.display = 'none';
+        // managerLoginBtn.style.display = 'none';
         adminProfileBtn.style.display = 'block'; 
         adminEmail.innerHTML = signedInManager;
     } else {
-        managerLoginBtn.style.display = 'block';
+        // managerLoginBtn.style.display = 'block';
         adminProfileBtn.style.display = 'none';
     }
 });

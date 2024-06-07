@@ -1,14 +1,14 @@
 document.addEventListener('DOMContentLoaded', (event) => {
-    renderCustomers();    
+    renderManagers();    
 });
 
-function renderCustomers() {
-    const tableBody = document.querySelector('#customerAdminTable tbody');
+function renderManagers() {
+    const tableBody = document.querySelector('#managerAdminTable tbody');
     while (tableBody.firstChild) {
         tableBody.removeChild(tableBody.firstChild);
     }
 
-    var apiUrl = 'http://localhost:8080/OnlineStoreAppBackendAPI/webapi/myresource/getCustomers';
+    var apiUrl = 'http://localhost:8080/OnlineStoreAppBackendAPI/webapi/myresource/getManagers';
 
     $.ajax({
         url: apiUrl,
@@ -16,25 +16,21 @@ function renderCustomers() {
         success: function(response) {
             // Handle the success response
             if (response === null) {
-                const customerAdminContent = document.getElementById('customerAdminContent');
-                customerAdminContent.innerHTML = `<h2 style="margin-top: 6rem; text-align: center;">No Customers Registered in Store</h2>`;
+                const managerAdminContent = document.getElementById('managerAdminContent');
+                managerAdminContent.innerHTML = `<h2 style="margin-top: 6rem; text-align: center;">No Managers Registered in Store</h2>`;
             } else {
                 response.reverse();
                 response.forEach(item => {
-                    const customerAdminTableBody = document.querySelector('#customerAdminTable tbody');
-                    const customerAdminTableBodyHtml = `
-                        <tr class="customerRow">
-                            <td class="customerId">${item.customerId}</td>
-                            <td class="fullName">${item.fullName}</td>
-                            <td class="mobile">${item.mobile}</td>
+                    const managerAdminTableBody = document.querySelector('#managerAdminTable tbody');
+                    const managerAdminTableBodyHtml = `
+                        <tr class="managerRow">
                             <td class="email">${item.email}</td>
                             <td class="password">${item.password}</td>
-                            <td class="address">${item.address}</td>
-                            <td class="py-2"><button class="editBtn btn btn-warning btn-sm" style="width: 75px;" onclick="updateCustomer(this)">Edit</button></td>
-                            <td class="py-2"><button class="removeBtn btn btn-danger btn-sm" style="width: 75px;" onclick="removeCustomerViaTable(this)">Remove</button></td>
+                            <td class="py-2"><button class="editBtn btn btn-warning btn-sm" style="width: 75px;" onclick="updateManager(this)">Edit</button></td>
+                            <td class="py-2"><button class="removeBtn btn btn-danger btn-sm" style="width: 75px;" onclick="removeManagerViaTable(this)">Remove</button></td>
                         </tr>
                     `;
-                    customerAdminTableBody.innerHTML += customerAdminTableBodyHtml;
+                    managerAdminTableBody.innerHTML += managerAdminTableBodyHtml;
                 });
             }
         },
@@ -44,20 +40,20 @@ function renderCustomers() {
     });
 }
 
-function viewCustomer() {
+function viewManager() {
     clearPreviousAlerts();
 
-    const customerId = document.getElementById('customerId').value.trim();
-    if (!isValidCustomerId(customerId)) {
+    const managerId = document.getElementById('managerId').value.trim();
+    if (!isValidManagerId(managerId)) {
         const alert = document.getElementById('failure-alert');
-        alert.innerText = 'Customer Id does not match the pattern';
+        alert.innerText = 'Manager Id does not match the pattern';
         alert.style.display = 'block';
         return;
     }
 
-    var apiUrl = 'http://localhost:8080/OnlineStoreAppBackendAPI/webapi/myresource/getCustomerById';
+    var apiUrl = 'http://localhost:8080/OnlineStoreAppBackendAPI/webapi/myresource/getManagerById';
     var formData = {
-        customerId: customerId
+        managerId: managerId
     };
 
     $.ajax({
@@ -67,7 +63,7 @@ function viewCustomer() {
         data: JSON.stringify(formData),
         success: function(response) {
             if (response.success === 'true') {
-                document.getElementById('customerId').value = response.customerId;
+                document.getElementById('managerId').value = response.managerId;
                 document.getElementById('fullName').value = response.fullName;
                 document.getElementById('mobile2').value = response.mobile;
                 document.getElementById('email2').value = response.email;
@@ -88,13 +84,13 @@ function viewCustomer() {
     });
 }
 
-function addCustomer() {
+function addManager() {
     clearPreviousAlerts();
 
-    const customerId = document.getElementById('customerId').value.trim();
-    if (customerId !== '') {
+    const managerId = document.getElementById('managerId').value.trim();
+    if (managerId !== '') {
         const alert = document.getElementById('failure-alert');
-        alert.innerText = 'You cannot provide Customer Id while adding customer';
+        alert.innerText = 'You cannot provide Manager Id while adding manager';
         alert.style.display = 'block';
         return;
     }
@@ -102,7 +98,7 @@ function addCustomer() {
     const fullName = document.getElementById('fullName').value.trim();
     if (!isValidName(fullName)) {
         const alert = document.getElementById('failure-alert');
-        alert.innerText = 'Customer Name does not match the pattern';
+        alert.innerText = 'Manager Name does not match the pattern';
         alert.style.display = 'block';
         return;
     }
@@ -110,7 +106,7 @@ function addCustomer() {
     const mobile = document.getElementById('mobile2').value.trim();
     if (!isValidMobile(mobile)) {
         const alert = document.getElementById('failure-alert');
-        alert.innerText = 'Customer Mobile Number does not match the pattern';
+        alert.innerText = 'Manager Mobile Number does not match the pattern';
         alert.style.display = 'block';
         return;
     }
@@ -118,7 +114,7 @@ function addCustomer() {
     const email = document.getElementById('email2').value.trim();
     if (!isValidEmail(email)) {
         const alert = document.getElementById('failure-alert');
-        alert.innerText = 'Customer Email does not match the pattern';
+        alert.innerText = 'Manager Email does not match the pattern';
         alert.style.display = 'block';
         return;
     }
@@ -126,7 +122,7 @@ function addCustomer() {
     const password = document.getElementById('password').value.trim();
     if (!isValidPassword(password)) {
         const alert = document.getElementById('failure-alert');
-        alert.innerText = 'Customer Password is Invalid';
+        alert.innerText = 'Manager Password is Invalid';
         alert.style.display = 'block';
         return;
     }
@@ -134,14 +130,14 @@ function addCustomer() {
     const address = document.getElementById('address').value.trim();
     if (!isValidAddress(address)) {
         const alert = document.getElementById('failure-alert');
-        alert.innerText = 'Customer Address is Invalid';
+        alert.innerText = 'Manager Address is Invalid';
         alert.style.display = 'block';
         return;
     }
 
-    var apiUrl = 'http://localhost:8080/OnlineStoreAppBackendAPI/webapi/myresource/addCustomer';
+    var apiUrl = 'http://localhost:8080/OnlineStoreAppBackendAPI/webapi/myresource/addManager';
     var formData = {
-        customerId: customerId,
+        managerId: managerId,
         fullName: fullName,
         mobile: mobile,
         email: email,
@@ -156,16 +152,16 @@ function addCustomer() {
         data: JSON.stringify(formData),
         success: function(response) {
             if (response.success === 'true') {
-                document.getElementById('customerId').value = "";
+                document.getElementById('managerId').value = "";
                 document.getElementById('fullName').value = "";
                 document.getElementById('mobile2').value = "";
                 document.getElementById('email2').value = "";
                 document.getElementById('password').value = "";
                 document.getElementById('address').value = "";
                 const alert = document.getElementById('success-alert');
-                alert.innerText = "Customer Added Successfully";
+                alert.innerText = "Manager Added Successfully";
                 alert.style.display = 'block';
-                renderCustomers();
+                renderManagers();
             } else {
                 const alert = document.getElementById('failure-alert');
                 alert.innerText = response.errorMessage;
@@ -181,12 +177,12 @@ function addCustomer() {
     });
 }
 
-function editCustomer() {
+function editManager() {
     clearPreviousAlerts();
-    const customerId = document.getElementById('customerId').value.trim();
-    if (!isValidCustomerId(customerId)) {
+    const managerId = document.getElementById('managerId').value.trim();
+    if (!isValidManagerId(managerId)) {
         const alert = document.getElementById('failure-alert');
-        alert.innerText = 'Customer Id does not match the pattern';
+        alert.innerText = 'Manager Id does not match the pattern';
         alert.style.display = 'block';
         return;
     }
@@ -194,7 +190,7 @@ function editCustomer() {
     const fullName = document.getElementById('fullName').value.trim();
     if (!isValidName(fullName)) {
         const alert = document.getElementById('failure-alert');
-        alert.innerText = 'Customer Name does not match the pattern';
+        alert.innerText = 'Manager Name does not match the pattern';
         alert.style.display = 'block';
         return;
     }
@@ -210,7 +206,7 @@ function editCustomer() {
     const email = document.getElementById('email2').value.trim();
     if (!isValidEmail(email)) {
         const alert = document.getElementById('failure-alert');
-        alert.innerText = 'Customer E-mail is invalid';
+        alert.innerText = 'Manager E-mail is invalid';
         alert.style.display = 'block';
         return;
     }
@@ -218,7 +214,7 @@ function editCustomer() {
     const password = document.getElementById('password').value.trim();
     if (!isValidPassword(password)) {
         const alert = document.getElementById('failure-alert');
-        alert.innerText = 'Customer Password is Invalid';
+        alert.innerText = 'Manager Password is Invalid';
         alert.style.display = 'block';
         return;
     }
@@ -226,14 +222,14 @@ function editCustomer() {
     const address = document.getElementById('address').value.trim();
     if (!isValidAddress(address)) {
         const alert = document.getElementById('failure-alert');
-        alert.innerText = 'Customer Address is Invalid';
+        alert.innerText = 'Manager Address is Invalid';
         alert.style.display = 'block';
         return;
     }
 
-    var apiUrl = 'http://localhost:8080/OnlineStoreAppBackendAPI/webapi/myresource/editCustomer';
+    var apiUrl = 'http://localhost:8080/OnlineStoreAppBackendAPI/webapi/myresource/editManager';
     var formData = {
-        customerId: customerId,
+        managerId: managerId,
         fullName: fullName,
         mobile: mobile,
         email: email,
@@ -248,16 +244,16 @@ function editCustomer() {
         data: JSON.stringify(formData),
         success: function(response) {
             if (response.success === 'true') {
-                document.getElementById('customerId').value = "";
+                document.getElementById('managerId').value = "";
                 document.getElementById('fullName').value = "";
                 document.getElementById('mobile2').value = "";
                 document.getElementById('email2').value = "";
                 document.getElementById('password').value = "";
                 document.getElementById('address').value = "";
                 const alert = document.getElementById('success-alert');
-                alert.innerText = "Customer Edited Successfully";
+                alert.innerText = "Manager Edited Successfully";
                 alert.style.display = 'block';
-                renderCustomers();
+                renderManagers();
             } else {
                 const alert = document.getElementById('failure-alert');
                 alert.innerText = response.errorMessage;
@@ -273,20 +269,20 @@ function editCustomer() {
     });
 }
 
-function removeCustomer() {
+function removeManager() {
     clearPreviousAlerts();
 
-    const customerId = document.getElementById('customerId').value.trim();
-    if (!isValidCustomerId(customerId)) {
+    const managerId = document.getElementById('managerId').value.trim();
+    if (!isValidManagerId(managerId)) {
         const alert = document.getElementById('failure-alert');
-        alert.innerText = 'Customer Id does not match the pattern';
+        alert.innerText = 'Manager Id does not match the pattern';
         alert.style.display = 'block';
         return;
     }
 
-    var apiUrl = 'http://localhost:8080/OnlineStoreAppBackendAPI/webapi/myresource/removeCustomer';
+    var apiUrl = 'http://localhost:8080/OnlineStoreAppBackendAPI/webapi/myresource/removeManager';
     var formData = {
-        customerId: customerId
+        managerId: managerId
     };
 
     $.ajax({
@@ -296,16 +292,16 @@ function removeCustomer() {
         data: JSON.stringify(formData),
         success: function(response) {
             if (response.success === 'true') {
-                document.getElementById('customerId').value = "";
+                document.getElementById('managerId').value = "";
                 document.getElementById('fullName').value = "";
                 document.getElementById('mobile2').value = "";
                 document.getElementById('email2').value = "";
                 document.getElementById('password').value = "";
                 document.getElementById('address').value = "";
                 const alert = document.getElementById('success-alert');
-                alert.innerText = "Customer Removed Successfully";
+                alert.innerText = "Manager Removed Successfully";
                 alert.style.display = 'block';
-                renderCustomers();
+                renderManagers();
             } else {
                 const alert = document.getElementById('failure-alert');
                 alert.innerText = response.errorMessage;
@@ -320,16 +316,16 @@ function removeCustomer() {
         }
     });
 }
- function removeCustomerViaTable(removeViaTableBtn) {
+ function removeManagerViaTable(removeViaTableBtn) {
     clearPreviousAlerts();
 
-    const customerRow = removeViaTableBtn.closest('.customerRow');
-    const customerIdElement = customerRow.querySelector('.customerId');
-    const customerId = customerIdElement.textContent;
+    const managerRow = removeViaTableBtn.closest('.managerRow');
+    const managerIdElement = managerRow.querySelector('.managerId');
+    const managerId = managerIdElement.textContent;
 
-    var apiUrl = 'http://localhost:8080/OnlineStoreAppBackendAPI/webapi/myresource/removeCustomer';
+    var apiUrl = 'http://localhost:8080/OnlineStoreAppBackendAPI/webapi/myresource/removeManager';
     var formData = {
-        customerId: customerId
+        managerId: managerId
     };
 
     $.ajax({
@@ -339,16 +335,16 @@ function removeCustomer() {
         data: JSON.stringify(formData),
         success: function(response) {
             if (response.success === 'true') {
-                document.getElementById('customerId').value = "";
+                document.getElementById('managerId').value = "";
                 document.getElementById('fullName').value = "";
                 document.getElementById('mobile2').value = "";
                 document.getElementById('email2').value = "";
                 document.getElementById('password').value = "";
                 document.getElementById('address').value = "";
                 const alert = document.getElementById('success-alert');
-                alert.innerText = "Customer Removed Successfully";
+                alert.innerText = "Manager Removed Successfully";
                 alert.style.display = 'block';
-                renderCustomers();
+                renderManagers();
             } else {
                 const alert = document.getElementById('failure-alert');
                 alert.innerText = response.errorMessage;
@@ -365,32 +361,32 @@ function removeCustomer() {
     });
  }
 
-function updateCustomer(editBtn) {
+function updateManager(editBtn) {
     clearPreviousAlerts();
 
-    const customerRow = editBtn.closest('.customerRow');
+    const managerRow = editBtn.closest('.managerRow');
     
-    const customerIdElement = customerRow.querySelector('.customerId');
-    const customerId = customerIdElement.textContent;
-    document.getElementById('customerId').value = customerId;
+    const managerIdElement = managerRow.querySelector('.managerId');
+    const managerId = managerIdElement.textContent;
+    document.getElementById('managerId').value = managerId;
 
-    const fullNameElement = customerRow.querySelector('.fullName');
+    const fullNameElement = managerRow.querySelector('.fullName');
     const fullName = fullNameElement.textContent;
     document.getElementById('fullName').value = fullName;
 
-    const mobileElement = customerRow.querySelector('.mobile');
+    const mobileElement = managerRow.querySelector('.mobile');
     const mobile = mobileElement.textContent.trim();
     document.getElementById('mobile2').value = mobile;
 
-    const emailElement = customerRow.querySelector('.email');
+    const emailElement = managerRow.querySelector('.email');
     const email = emailElement.textContent;
     document.getElementById('email2').value = email;
 
-    const passwordElement = customerRow.querySelector('.password');
+    const passwordElement = managerRow.querySelector('.password');
     const password = passwordElement.textContent;
     document.getElementById('password').value = password;
 
-    const addressElement = customerRow.querySelector('.address');
+    const addressElement = managerRow.querySelector('.address');
     const address = addressElement.textContent;
     document.getElementById('address').value = address;
 
@@ -412,9 +408,9 @@ function dismissAlert(alertId) {
     });
 }
 
-function isValidCustomerId(customerId) {
-    const customerIdRegex = /^C#[0-9]{5}$/;
-    return customerIdRegex.test(customerId);
+function isValidManagerId(managerId) {
+    const managerIdRegex = /^C#[0-9]{5}$/;
+    return managerIdRegex.test(managerId);
 }
 
 function isValidName(fullName) {

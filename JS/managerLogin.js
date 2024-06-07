@@ -5,7 +5,7 @@ $(document).ready(function() {
     }
 });
 
-function signIn() {
+function signInAsManager() {
     const errorMessage = document.getElementById('signInErrorMessage');
     errorMessage.textContent = '';
 

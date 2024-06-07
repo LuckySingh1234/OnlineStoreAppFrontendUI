@@ -42,6 +42,7 @@ function renderProducts(category) {
                 const productAdminContent = document.getElementById('productAdminContent');
                 productAdminContent.innerHTML = `<h2 style="margin-top: 6rem; text-align: center;">No Products in Store</h2>`;
             } else {
+                response.reverse();
                 response.forEach(item => {
                     const productAdminTableBody = document.querySelector('#productAdminTable tbody');
                     const productAdminTableBodyHtml = `
@@ -114,9 +115,15 @@ function addProduct() {
     clearPreviousAlerts();
 
     const productId = document.getElementById('productId').value.trim();
-    if (!isValidProductId(productId)) {
+    // if (!isValidProductId(productId)) {
+    //     const alert = document.getElementById('failure-alert');
+    //     alert.innerText = 'Product Id does not match the pattern';
+    //     alert.style.display = 'block';
+    //     return;
+    // }
+    if (productId !== '') {
         const alert = document.getElementById('failure-alert');
-        alert.innerText = 'Product Id does not match the pattern';
+        alert.innerText = 'You cannot provide Product Id while adding product';
         alert.style.display = 'block';
         return;
     }
@@ -157,7 +164,6 @@ function addProduct() {
 
     var apiUrl = 'http://localhost:8080/OnlineStoreAppBackendAPI/webapi/myresource/addProduct';
     var formData = {
-        productId: productId,
         name: name,
         price: price,
         stockQuantity: stockQuantity,
@@ -423,7 +429,7 @@ function dismissAlert(alertId) {
 }
 
 function isValidProductId(productId) {
-    const productIdRegex = /^P#[0-9A-Z]{5}$/;
+    const productIdRegex = /^P#[0-9]{5}$/;
     return productIdRegex.test(productId);
 }
 
