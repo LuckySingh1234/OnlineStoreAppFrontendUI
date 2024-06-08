@@ -43,17 +43,17 @@ function renderManagers() {
 function viewManager() {
     clearPreviousAlerts();
 
-    const managerId = document.getElementById('managerId').value.trim();
-    if (!isValidManagerId(managerId)) {
+    const email = document.getElementById('email2').value.trim();
+    if (!isValidEmail(email)) {
         const alert = document.getElementById('failure-alert');
-        alert.innerText = 'Manager Id does not match the pattern';
+        alert.innerText = 'Manager email does not match the pattern';
         alert.style.display = 'block';
         return;
     }
 
-    var apiUrl = 'http://localhost:8080/OnlineStoreAppBackendAPI/webapi/myresource/getManagerById';
+    var apiUrl = 'http://localhost:8080/OnlineStoreAppBackendAPI/webapi/myresource/getManagerByEmail';
     var formData = {
-        managerId: managerId
+        email: email
     };
 
     $.ajax({
@@ -63,12 +63,8 @@ function viewManager() {
         data: JSON.stringify(formData),
         success: function(response) {
             if (response.success === 'true') {
-                document.getElementById('managerId').value = response.managerId;
-                document.getElementById('fullName').value = response.fullName;
-                document.getElementById('mobile2').value = response.mobile;
                 document.getElementById('email2').value = response.email;
                 document.getElementById('password').value = response.password;
-                document.getElementById('address').value = response.address;
             } else {
                 const alert = document.getElementById('failure-alert');
                 alert.innerText = response.errorMessage;
@@ -87,30 +83,6 @@ function viewManager() {
 function addManager() {
     clearPreviousAlerts();
 
-    const managerId = document.getElementById('managerId').value.trim();
-    if (managerId !== '') {
-        const alert = document.getElementById('failure-alert');
-        alert.innerText = 'You cannot provide Manager Id while adding manager';
-        alert.style.display = 'block';
-        return;
-    }
-
-    const fullName = document.getElementById('fullName').value.trim();
-    if (!isValidName(fullName)) {
-        const alert = document.getElementById('failure-alert');
-        alert.innerText = 'Manager Name does not match the pattern';
-        alert.style.display = 'block';
-        return;
-    }
-
-    const mobile = document.getElementById('mobile2').value.trim();
-    if (!isValidMobile(mobile)) {
-        const alert = document.getElementById('failure-alert');
-        alert.innerText = 'Manager Mobile Number does not match the pattern';
-        alert.style.display = 'block';
-        return;
-    }
-
     const email = document.getElementById('email2').value.trim();
     if (!isValidEmail(email)) {
         const alert = document.getElementById('failure-alert');
@@ -127,22 +99,10 @@ function addManager() {
         return;
     }
 
-    const address = document.getElementById('address').value.trim();
-    if (!isValidAddress(address)) {
-        const alert = document.getElementById('failure-alert');
-        alert.innerText = 'Manager Address is Invalid';
-        alert.style.display = 'block';
-        return;
-    }
-
     var apiUrl = 'http://localhost:8080/OnlineStoreAppBackendAPI/webapi/myresource/addManager';
     var formData = {
-        managerId: managerId,
-        fullName: fullName,
-        mobile: mobile,
         email: email,
-        password: password,
-        address: address
+        password: password
     };
 
     $.ajax({
@@ -152,12 +112,8 @@ function addManager() {
         data: JSON.stringify(formData),
         success: function(response) {
             if (response.success === 'true') {
-                document.getElementById('managerId').value = "";
-                document.getElementById('fullName').value = "";
-                document.getElementById('mobile2').value = "";
                 document.getElementById('email2').value = "";
                 document.getElementById('password').value = "";
-                document.getElementById('address').value = "";
                 const alert = document.getElementById('success-alert');
                 alert.innerText = "Manager Added Successfully";
                 alert.style.display = 'block';
@@ -179,29 +135,6 @@ function addManager() {
 
 function editManager() {
     clearPreviousAlerts();
-    const managerId = document.getElementById('managerId').value.trim();
-    if (!isValidManagerId(managerId)) {
-        const alert = document.getElementById('failure-alert');
-        alert.innerText = 'Manager Id does not match the pattern';
-        alert.style.display = 'block';
-        return;
-    }
-
-    const fullName = document.getElementById('fullName').value.trim();
-    if (!isValidName(fullName)) {
-        const alert = document.getElementById('failure-alert');
-        alert.innerText = 'Manager Name does not match the pattern';
-        alert.style.display = 'block';
-        return;
-    }
-
-    const mobile = document.getElementById('mobile2').value.trim();
-    if (!isValidMobile(mobile)) {
-        const alert = document.getElementById('failure-alert');
-        alert.innerText = 'Mobile Number should contain only 10 digits';
-        alert.style.display = 'block';
-        return;
-    }
 
     const email = document.getElementById('email2').value.trim();
     if (!isValidEmail(email)) {
@@ -219,22 +152,10 @@ function editManager() {
         return;
     }
 
-    const address = document.getElementById('address').value.trim();
-    if (!isValidAddress(address)) {
-        const alert = document.getElementById('failure-alert');
-        alert.innerText = 'Manager Address is Invalid';
-        alert.style.display = 'block';
-        return;
-    }
-
     var apiUrl = 'http://localhost:8080/OnlineStoreAppBackendAPI/webapi/myresource/editManager';
     var formData = {
-        managerId: managerId,
-        fullName: fullName,
-        mobile: mobile,
         email: email,
-        password: password,
-        address: address
+        password: password
     };
 
     $.ajax({
@@ -244,12 +165,8 @@ function editManager() {
         data: JSON.stringify(formData),
         success: function(response) {
             if (response.success === 'true') {
-                document.getElementById('managerId').value = "";
-                document.getElementById('fullName').value = "";
-                document.getElementById('mobile2').value = "";
                 document.getElementById('email2').value = "";
                 document.getElementById('password').value = "";
-                document.getElementById('address').value = "";
                 const alert = document.getElementById('success-alert');
                 alert.innerText = "Manager Edited Successfully";
                 alert.style.display = 'block';
@@ -269,63 +186,17 @@ function editManager() {
     });
 }
 
-function removeManager() {
-    clearPreviousAlerts();
 
-    const managerId = document.getElementById('managerId').value.trim();
-    if (!isValidManagerId(managerId)) {
-        const alert = document.getElementById('failure-alert');
-        alert.innerText = 'Manager Id does not match the pattern';
-        alert.style.display = 'block';
-        return;
-    }
-
-    var apiUrl = 'http://localhost:8080/OnlineStoreAppBackendAPI/webapi/myresource/removeManager';
-    var formData = {
-        managerId: managerId
-    };
-
-    $.ajax({
-        url: apiUrl,
-        type: 'POST',
-        contentType: 'application/json',
-        data: JSON.stringify(formData),
-        success: function(response) {
-            if (response.success === 'true') {
-                document.getElementById('managerId').value = "";
-                document.getElementById('fullName').value = "";
-                document.getElementById('mobile2').value = "";
-                document.getElementById('email2').value = "";
-                document.getElementById('password').value = "";
-                document.getElementById('address').value = "";
-                const alert = document.getElementById('success-alert');
-                alert.innerText = "Manager Removed Successfully";
-                alert.style.display = 'block';
-                renderManagers();
-            } else {
-                const alert = document.getElementById('failure-alert');
-                alert.innerText = response.errorMessage;
-                alert.style.display = 'block';
-            }
-        },
-        error: function(xhr, status, error) {
-            // Handle error
-            const alert = document.getElementById('failure-alert');
-            alert.innerText = 'Error: ' + error;
-            alert.style.display = 'block';
-        }
-    });
-}
  function removeManagerViaTable(removeViaTableBtn) {
     clearPreviousAlerts();
 
     const managerRow = removeViaTableBtn.closest('.managerRow');
-    const managerIdElement = managerRow.querySelector('.managerId');
-    const managerId = managerIdElement.textContent;
+    const emailElement = managerRow.querySelector('.email');
+    const email = emailElement.textContent;
 
     var apiUrl = 'http://localhost:8080/OnlineStoreAppBackendAPI/webapi/myresource/removeManager';
     var formData = {
-        managerId: managerId
+        email: email
     };
 
     $.ajax({
@@ -335,12 +206,8 @@ function removeManager() {
         data: JSON.stringify(formData),
         success: function(response) {
             if (response.success === 'true') {
-                document.getElementById('managerId').value = "";
-                document.getElementById('fullName').value = "";
-                document.getElementById('mobile2').value = "";
                 document.getElementById('email2').value = "";
                 document.getElementById('password').value = "";
-                document.getElementById('address').value = "";
                 const alert = document.getElementById('success-alert');
                 alert.innerText = "Manager Removed Successfully";
                 alert.style.display = 'block';
@@ -408,21 +275,6 @@ function dismissAlert(alertId) {
     });
 }
 
-function isValidManagerId(managerId) {
-    const managerIdRegex = /^C#[0-9]{5}$/;
-    return managerIdRegex.test(managerId);
-}
-
-function isValidName(fullName) {
-    const fullNameRegex = /^[A-Za-z\s]{1,20}$/;
-    return fullNameRegex.test(fullName);
-}
-
-function isValidMobile(mobile) {
-    const mobileRegex = /^\d{10}$/;
-    return mobileRegex.test(mobile);
-}
-
 function isValidEmail(email) {
     const emailRegex = /^[a-zA-Z0-9_+&*-]+(?:\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\.)+[a-zA-Z]{2,7}$/;
     return emailRegex.test(email);
@@ -430,8 +282,4 @@ function isValidEmail(email) {
 
 function isValidPassword(password) {
     return password !== "";
-}
-
-function isValidAddress(address) {
-    return address !== "";
 }

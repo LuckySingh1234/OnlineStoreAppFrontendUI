@@ -273,53 +273,6 @@ function editCustomer() {
     });
 }
 
-function removeCustomer() {
-    clearPreviousAlerts();
-
-    const customerId = document.getElementById('customerId').value.trim();
-    if (!isValidCustomerId(customerId)) {
-        const alert = document.getElementById('failure-alert');
-        alert.innerText = 'Customer Id does not match the pattern';
-        alert.style.display = 'block';
-        return;
-    }
-
-    var apiUrl = 'http://localhost:8080/OnlineStoreAppBackendAPI/webapi/myresource/removeCustomer';
-    var formData = {
-        customerId: customerId
-    };
-
-    $.ajax({
-        url: apiUrl,
-        type: 'POST',
-        contentType: 'application/json',
-        data: JSON.stringify(formData),
-        success: function(response) {
-            if (response.success === 'true') {
-                document.getElementById('customerId').value = "";
-                document.getElementById('fullName').value = "";
-                document.getElementById('mobile2').value = "";
-                document.getElementById('email2').value = "";
-                document.getElementById('password').value = "";
-                document.getElementById('address').value = "";
-                const alert = document.getElementById('success-alert');
-                alert.innerText = "Customer Removed Successfully";
-                alert.style.display = 'block';
-                renderCustomers();
-            } else {
-                const alert = document.getElementById('failure-alert');
-                alert.innerText = response.errorMessage;
-                alert.style.display = 'block';
-            }
-        },
-        error: function(xhr, status, error) {
-            // Handle error
-            const alert = document.getElementById('failure-alert');
-            alert.innerText = 'Error: ' + error;
-            alert.style.display = 'block';
-        }
-    });
-}
  function removeCustomerViaTable(removeViaTableBtn) {
     clearPreviousAlerts();
 

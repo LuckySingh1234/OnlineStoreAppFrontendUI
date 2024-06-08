@@ -289,53 +289,6 @@ function editProduct() {
     });
 }
 
-function removeProduct() {
-    clearPreviousAlerts();
-
-    const productId = document.getElementById('productId').value.trim();
-    if (!isValidProductId(productId)) {
-        const alert = document.getElementById('failure-alert');
-        alert.innerText = 'Product Id does not match the pattern';
-        alert.style.display = 'block';
-        return;
-    }
-
-    var apiUrl = 'http://localhost:8080/OnlineStoreAppBackendAPI/webapi/myresource/removeProduct';
-    var formData = {
-        productId: productId
-    };
-
-    $.ajax({
-        url: apiUrl,
-        type: 'POST',
-        contentType: 'application/json',
-        data: JSON.stringify(formData),
-        success: function(response) {
-            if (response.success === 'true') {
-                document.getElementById('productId').value = "";
-                document.getElementById('name2').value = "";
-                document.getElementById('price').value = "";
-                document.getElementById('stockQuantity').value = "";
-                document.getElementById('category').value = "";
-                document.getElementById('imageUrl').value = "";
-                const alert = document.getElementById('success-alert');
-                alert.innerText = "Product Removed Successfully";
-                alert.style.display = 'block';
-                renderProducts(document.getElementById('category-filter').value);
-            } else {
-                const alert = document.getElementById('failure-alert');
-                alert.innerText = response.errorMessage;
-                alert.style.display = 'block';
-            }
-        },
-        error: function(xhr, status, error) {
-            // Handle error
-            const alert = document.getElementById('failure-alert');
-            alert.innerText = 'Error: ' + error;
-            alert.style.display = 'block';
-        }
-    });
-}
  function removeProductViaTable(removeViaTableBtn) {
     clearPreviousAlerts();
 
